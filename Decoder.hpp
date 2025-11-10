@@ -67,14 +67,16 @@ namespace WdRiscv
     /// Do not consider lr and sc instructions as load/store events for
     /// performance counter when flag is false. Do consider them when
     /// flag is true.
-    void perfCountAtomicLoadStore(bool flag)
-    { instTable_.perfCountAtomicLoadStore(flag); }
+    //void perfCountAtomicLoadStore(bool flag)
+    //{ // set at compile time:instTable_.perfCountAtomicLoadStore(flag); 
+    //}
 
     /// Do not consider flw,fsw,fld,fsd...c instructions as load/store
     /// events for performance counter when flag is false. Do consider
     /// them when flag is true.
-    void perfCountFpLoadStore(bool flag)
-    { instTable_.perfCountFpLoadStore(flag); }
+    //void perfCountFpLoadStore(bool flag)
+    //{ // set at compile time:instTable_.perfCountFpLoadStore(flag); 
+    //}
 
     /// Return the instruction table entry associated with the given
     /// instruction id. Return illegal instruction entry id is out of

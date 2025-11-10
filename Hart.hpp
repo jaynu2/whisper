@@ -649,14 +649,16 @@ namespace WdRiscv
     /// Do not consider lr and sc instructions as load/store events for
     /// performance counter when flag is false. Do consider them when
     /// flag is true.
-    void perfCountAtomicLoadStore(bool flag)
-    { decoder_.perfCountAtomicLoadStore(flag); }
+    //void perfCountAtomicLoadStore(bool flag)
+    //{ // set at compile time: decoder_.perfCountAtomicLoadStore(flag); 
+    //}
 
     /// Do not consider flw,fsw,fld,fsd...c instructions as load/store
     /// events for performance counter when flag is false. Do consider
     /// them when flag is true.
-    void perfCountFpLoadStore(bool flag)
-    { decoder_.perfCountFpLoadStore(flag); }
+    //void perfCountFpLoadStore(bool flag)
+    //{ //set at compile time:decoder_.perfCountFpLoadStore(flag); 
+    //}
 
     /// Configure vector unit of this hart.
     void configVector(unsigned bytesPerVec, unsigned minBytesPerElem,

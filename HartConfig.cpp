@@ -2027,14 +2027,14 @@ HartConfig::applyConfig(Hart<URV>& hart, bool userMode, bool verbose) const
   if (config_ -> contains(tag))
     {
       getJsonBoolean(tag, config_ ->at(tag), flag) or errors++;
-      hart.perfCountAtomicLoadStore(flag);
+      // do at compile time hart.perfCountAtomicLoadStore(flag);
     }
 
   tag = "perf_count_fp_load_store";
   if (config_ -> contains(tag))
     {
       getJsonBoolean(tag, config_ ->at(tag), flag) or errors++;
-      hart.perfCountFpLoadStore(flag);
+      // do at compile time hart.perfCountFpLoadStore(flag);
     }
 
   for (std::string_view ztag : { "zba", "zbb", "zbc", "zbs", "zfh" , "zfhmin", "zknd",

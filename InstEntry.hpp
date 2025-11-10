@@ -15,6 +15,8 @@
 #pragma once
 
 #include <vector>
+#include <array>
+#include <algorithm>
 #include <string>
 #include <unordered_map>
 #include "InstId.hpp"
@@ -90,7 +92,7 @@ namespace WdRiscv
 
 
     /// Return the name of the instruction.
-    std::string_view name() const { return name_; }
+    constexpr std::string_view name() const { return name_; }
 
     /// Return the id of the instruction (an integer between 0 and n
     /// where n is the number of defined instructions). Note that it is
@@ -98,7 +100,7 @@ namespace WdRiscv
     /// different ids. This is because RISCV has instruction alias:
     /// same code corresponds to different instruction depending on the
     /// feature set and mode of the processor.
-    InstId instId() const
+    constexpr InstId instId() const
     { return id_; }
 
     /// Return the instruction bits with all the operand specifiers set
@@ -108,7 +110,7 @@ namespace WdRiscv
 
     /// Return the mask corresponding to the code bis: Returned value
     /// has a 1 for each non-operand-specifier bit.
-    uint32_t codeMask() const
+    constexpr uint32_t codeMask() const
     { return codeMask_; }
 
     /// Return valid operand count
@@ -117,7 +119,7 @@ namespace WdRiscv
 
     // Return the type of the ith operand or None if no such operand.
     // First operand corresponds to an index of zero.
-    OperandType ithOperandType(unsigned i) const
+    constexpr OperandType ithOperandType(unsigned i) const
     {
       if (i == 0) return op0Type_;
       if (i == 1) return op1Type_;
@@ -128,7 +130,7 @@ namespace WdRiscv
 
     // Return the mode of the ith operand of None if no such operand.
     // First operand corresponds to an index of zero.
-    OperandMode ithOperandMode(unsigned i) const
+    constexpr OperandMode ithOperandMode(unsigned i) const
     {
       if (i == 0) return op0Mode_;
       if (i == 1) return op1Mode_;
@@ -163,7 +165,7 @@ namespace WdRiscv
     }
 
     /// Return true if ith operand is an integer register and is a source.
-    bool isIthOperandIntRegSource(unsigned i) const
+    constexpr bool isIthOperandIntRegSource(unsigned i) const
     {
       if (ithOperandType(i) != OperandType::IntReg)
 	return false;
@@ -469,25 +471,24 @@ namespace WdRiscv
     /// Mark lr as a load instruction and sc as a store for the
     /// purpose of performance counters if flag is true; otherwise,
     /// lr and sc are not counted as load/store.
-    void perfCountAtomicLoadStore(bool flag);
+    constexpr void perfCountAtomicLoadStore(std::vector<InstEntry> &instVec_,bool flag);
 
     /// Mark floating point load/store instructions as load/store for
     /// the purpose of performance counters if flag is true;
     /// otherwise, floating point load/store are not counted.  If flag
     /// is true, flw will count as both a load instruction and as an
     /// fp instruction.
-    void perfCountFpLoadStore(bool flag);
+    constexpr void perfCountFpLoadStore(std::vector<InstEntry> &instVec_,bool flag);
 
     /// Return the instruction vector table.
-    const std::vector<InstEntry>& getInstVec()
-    { return instVec_; }
-
-  private:
+    //const std::vector<InstEntry>& getInstVec()
+    //{ return instVec_; }
 
     // Helper to the constructor.
-    void setupInstVec();
 
-    std::vector<InstEntry> instVec_;
+  private:
+    constexpr void setupInstVec(std::vector<InstEntry> &);
+    std::array<InstEntry,unsigned(InstId::maxId) + 1> instArray_;
     std::unordered_map<std::string_view, InstId> instMap_;
   };
 }

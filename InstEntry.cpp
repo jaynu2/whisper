@@ -43,12 +43,14 @@ InstEntry::InstEntry(std::string name, InstId id,
 
 InstTable::InstTable()
 {
-  setupInstVec();
+  std::vector<InstEntry> instVec_;
+
+  setupInstVec(instVec_);
 
   // Sanity check. Mark vector instructions.
   for (unsigned i = 0; InstId(i) <= InstId::maxId; ++i)
     {
-      auto& entry = instVec_.at(i);
+      auto& entry = instVec_[i];
       assert(entry.instId() == InstId(i));
 
       auto ext = entry.extension();
@@ -79,265 +81,265 @@ InstTable::InstTable()
     instMap_[instInfo.name()] = instInfo.instId();
 
   // Mark instructions with unsigned source opreands.
-  instVec_.at(size_t(InstId::bltu))     .setIsUnsigned(true);
-  instVec_.at(size_t(InstId::bgeu))     .setIsUnsigned(true);
-  instVec_.at(size_t(InstId::sltiu))    .setIsUnsigned(true);
-  instVec_.at(size_t(InstId::sltu))     .setIsUnsigned(true);
-  instVec_.at(size_t(InstId::mulhsu))   .setIsUnsigned(true);
-  instVec_.at(size_t(InstId::mulhu))    .setIsUnsigned(true);
-  instVec_.at(size_t(InstId::divu))     .setIsUnsigned(true);
-  instVec_.at(size_t(InstId::remu))     .setIsUnsigned(true);
+  instVec_[size_t(InstId::bltu)]     .setIsUnsigned(true);
+  instVec_[size_t(InstId::bgeu)]     .setIsUnsigned(true);
+  instVec_[size_t(InstId::sltiu)]    .setIsUnsigned(true);
+  instVec_[size_t(InstId::sltu)]     .setIsUnsigned(true);
+  instVec_[size_t(InstId::mulhsu)]   .setIsUnsigned(true);
+  instVec_[size_t(InstId::mulhu)]    .setIsUnsigned(true);
+  instVec_[size_t(InstId::divu)]     .setIsUnsigned(true);
+  instVec_[size_t(InstId::remu)]     .setIsUnsigned(true);
 
   // Set data size of load instructions.
-  instVec_.at(size_t(InstId::lb))      .setLoadSize(1);
-  instVec_.at(size_t(InstId::lh))      .setLoadSize(2);
-  instVec_.at(size_t(InstId::lw))      .setLoadSize(4);
-  instVec_.at(size_t(InstId::lbu))     .setLoadSize(1);
-  instVec_.at(size_t(InstId::lhu))     .setLoadSize(2);
-  instVec_.at(size_t(InstId::lwu))     .setLoadSize(4);
-  instVec_.at(size_t(InstId::ld))      .setLoadSize(8);
-  instVec_.at(size_t(InstId::lr_w))    .setLoadSize(4);
-  instVec_.at(size_t(InstId::lr_d))    .setLoadSize(8);
-  instVec_.at(size_t(InstId::flh))     .setLoadSize(2);
-  instVec_.at(size_t(InstId::flw))     .setLoadSize(4);
-  instVec_.at(size_t(InstId::fld))     .setLoadSize(8);
-  instVec_.at(size_t(InstId::c_lbu))   .setLoadSize(1);
-  instVec_.at(size_t(InstId::c_lhu))   .setLoadSize(2);
-  instVec_.at(size_t(InstId::c_lh))    .setLoadSize(2);
-  instVec_.at(size_t(InstId::c_fld))   .setLoadSize(8);
-  instVec_.at(size_t(InstId::c_lq))    .setLoadSize(16);
-  instVec_.at(size_t(InstId::c_lw))    .setLoadSize(4);
-  instVec_.at(size_t(InstId::c_flw))   .setLoadSize(4);
-  instVec_.at(size_t(InstId::c_ld))    .setLoadSize(8);
-  instVec_.at(size_t(InstId::c_fldsp)) .setLoadSize(8);
-  instVec_.at(size_t(InstId::c_lwsp))  .setLoadSize(4);
-  instVec_.at(size_t(InstId::c_flwsp)) .setLoadSize(4);
-  instVec_.at(size_t(InstId::c_ldsp))  .setLoadSize(8);
-  instVec_.at(size_t(InstId::hlv_b))   .setLoadSize(1);
-  instVec_.at(size_t(InstId::hlv_bu))  .setLoadSize(1);
-  instVec_.at(size_t(InstId::hlv_h))   .setLoadSize(2);
-  instVec_.at(size_t(InstId::hlv_hu))  .setLoadSize(2);
-  instVec_.at(size_t(InstId::hlv_w))   .setLoadSize(4);
-  instVec_.at(size_t(InstId::hlv_wu))  .setLoadSize(4);
-  instVec_.at(size_t(InstId::hlvx_hu)) .setLoadSize(2);
-  instVec_.at(size_t(InstId::hlvx_wu)) .setLoadSize(4);
-  instVec_.at(size_t(InstId::hlv_d))   .setLoadSize(8);
+  instVec_[size_t(InstId::lb)]      .setLoadSize(1);
+  instVec_[size_t(InstId::lh)]      .setLoadSize(2);
+  instVec_[size_t(InstId::lw)]      .setLoadSize(4);
+  instVec_[size_t(InstId::lbu)]     .setLoadSize(1);
+  instVec_[size_t(InstId::lhu)]     .setLoadSize(2);
+  instVec_[size_t(InstId::lwu)]     .setLoadSize(4);
+  instVec_[size_t(InstId::ld)]      .setLoadSize(8);
+  instVec_[size_t(InstId::lr_w)]    .setLoadSize(4);
+  instVec_[size_t(InstId::lr_d)]    .setLoadSize(8);
+  instVec_[size_t(InstId::flh)]     .setLoadSize(2);
+  instVec_[size_t(InstId::flw)]     .setLoadSize(4);
+  instVec_[size_t(InstId::fld)]     .setLoadSize(8);
+  instVec_[size_t(InstId::c_lbu)]   .setLoadSize(1);
+  instVec_[size_t(InstId::c_lhu)]   .setLoadSize(2);
+  instVec_[size_t(InstId::c_lh)]    .setLoadSize(2);
+  instVec_[size_t(InstId::c_fld)]   .setLoadSize(8);
+  instVec_[size_t(InstId::c_lq)]    .setLoadSize(16);
+  instVec_[size_t(InstId::c_lw)]    .setLoadSize(4);
+  instVec_[size_t(InstId::c_flw)]   .setLoadSize(4);
+  instVec_[size_t(InstId::c_ld)]    .setLoadSize(8);
+  instVec_[size_t(InstId::c_fldsp)] .setLoadSize(8);
+  instVec_[size_t(InstId::c_lwsp)]  .setLoadSize(4);
+  instVec_[size_t(InstId::c_flwsp)] .setLoadSize(4);
+  instVec_[size_t(InstId::c_ldsp)]  .setLoadSize(8);
+  instVec_[size_t(InstId::hlv_b)]   .setLoadSize(1);
+  instVec_[size_t(InstId::hlv_bu)]  .setLoadSize(1);
+  instVec_[size_t(InstId::hlv_h)]   .setLoadSize(2);
+  instVec_[size_t(InstId::hlv_hu)]  .setLoadSize(2);
+  instVec_[size_t(InstId::hlv_w)]   .setLoadSize(4);
+  instVec_[size_t(InstId::hlv_wu)]  .setLoadSize(4);
+  instVec_[size_t(InstId::hlvx_hu)] .setLoadSize(2);
+  instVec_[size_t(InstId::hlvx_wu)] .setLoadSize(4);
+  instVec_[size_t(InstId::hlv_d)]   .setLoadSize(8);
 
   // Set data size of store instructions.
-  instVec_.at(size_t(InstId::sb))      .setStoreSize(1);
-  instVec_.at(size_t(InstId::sh))      .setStoreSize(2);
-  instVec_.at(size_t(InstId::sw))      .setStoreSize(4);
-  instVec_.at(size_t(InstId::sd))      .setStoreSize(8);
-  instVec_.at(size_t(InstId::sc_w))    .setStoreSize(4);
-  instVec_.at(size_t(InstId::sc_d))    .setStoreSize(8);
-  instVec_.at(size_t(InstId::fsh))     .setStoreSize(2);
-  instVec_.at(size_t(InstId::fsw))     .setStoreSize(4);
-  instVec_.at(size_t(InstId::fsd))     .setStoreSize(8);
-  instVec_.at(size_t(InstId::c_fsd))   .setStoreSize(8);
-  instVec_.at(size_t(InstId::c_sb))    .setStoreSize(1);
-  instVec_.at(size_t(InstId::c_sh))    .setStoreSize(2);
-  instVec_.at(size_t(InstId::c_sw))    .setStoreSize(4);
-  instVec_.at(size_t(InstId::c_fsw))   .setStoreSize(4);
-  instVec_.at(size_t(InstId::c_sd))    .setStoreSize(8);
-  instVec_.at(size_t(InstId::c_fsdsp)) .setStoreSize(8);
-  instVec_.at(size_t(InstId::c_sq))    .setStoreSize(16);
-  instVec_.at(size_t(InstId::c_swsp))  .setStoreSize(4);
-  instVec_.at(size_t(InstId::c_fswsp)) .setStoreSize(4);
-  instVec_.at(size_t(InstId::c_sdsp))  .setStoreSize(8);
-  instVec_.at(size_t(InstId::hsv_b))   .setStoreSize(1);
-  instVec_.at(size_t(InstId::hsv_h))   .setStoreSize(2);
-  instVec_.at(size_t(InstId::hsv_w))   .setStoreSize(4);
-  instVec_.at(size_t(InstId::hsv_d))   .setStoreSize(8);
+  instVec_[size_t(InstId::sb)]      .setStoreSize(1);
+  instVec_[size_t(InstId::sh)]      .setStoreSize(2);
+  instVec_[size_t(InstId::sw)]      .setStoreSize(4);
+  instVec_[size_t(InstId::sd)]      .setStoreSize(8);
+  instVec_[size_t(InstId::sc_w)]    .setStoreSize(4);
+  instVec_[size_t(InstId::sc_d)]    .setStoreSize(8);
+  instVec_[size_t(InstId::fsh)]     .setStoreSize(2);
+  instVec_[size_t(InstId::fsw)]     .setStoreSize(4);
+  instVec_[size_t(InstId::fsd)]     .setStoreSize(8);
+  instVec_[size_t(InstId::c_fsd)]   .setStoreSize(8);
+  instVec_[size_t(InstId::c_sb)]    .setStoreSize(1);
+  instVec_[size_t(InstId::c_sh)]    .setStoreSize(2);
+  instVec_[size_t(InstId::c_sw)]    .setStoreSize(4);
+  instVec_[size_t(InstId::c_fsw)]   .setStoreSize(4);
+  instVec_[size_t(InstId::c_sd)]    .setStoreSize(8);
+  instVec_[size_t(InstId::c_fsdsp)] .setStoreSize(8);
+  instVec_[size_t(InstId::c_sq)]    .setStoreSize(16);
+  instVec_[size_t(InstId::c_swsp)]  .setStoreSize(4);
+  instVec_[size_t(InstId::c_fswsp)] .setStoreSize(4);
+  instVec_[size_t(InstId::c_sdsp)]  .setStoreSize(8);
+  instVec_[size_t(InstId::hsv_b)]   .setStoreSize(1);
+  instVec_[size_t(InstId::hsv_h)]   .setStoreSize(2);
+  instVec_[size_t(InstId::hsv_w)]   .setStoreSize(4);
+  instVec_[size_t(InstId::hsv_d)]   .setStoreSize(8);
 
   // Mark conditional branch instructions.
-  instVec_.at(size_t(InstId::beq))    .setConditionalBranch(true);
-  instVec_.at(size_t(InstId::bne))    .setConditionalBranch(true);
-  instVec_.at(size_t(InstId::blt))    .setConditionalBranch(true);
-  instVec_.at(size_t(InstId::bge))    .setConditionalBranch(true);
-  instVec_.at(size_t(InstId::bltu))   .setConditionalBranch(true);
-  instVec_.at(size_t(InstId::bgeu))   .setConditionalBranch(true);
-  instVec_.at(size_t(InstId::c_beqz)) .setConditionalBranch(true);
-  instVec_.at(size_t(InstId::c_bnez)) .setConditionalBranch(true);
+  instVec_[size_t(InstId::beq)]    .setConditionalBranch(true);
+  instVec_[size_t(InstId::bne)]    .setConditionalBranch(true);
+  instVec_[size_t(InstId::blt)]    .setConditionalBranch(true);
+  instVec_[size_t(InstId::bge)]    .setConditionalBranch(true);
+  instVec_[size_t(InstId::bltu)]   .setConditionalBranch(true);
+  instVec_[size_t(InstId::bgeu)]   .setConditionalBranch(true);
+  instVec_[size_t(InstId::c_beqz)] .setConditionalBranch(true);
+  instVec_[size_t(InstId::c_bnez)] .setConditionalBranch(true);
 
   // Mark branch to register instructions.
-  instVec_.at(size_t(InstId::jalr))   .setBranchToRegister(true);
-  instVec_.at(size_t(InstId::c_jr))   .setBranchToRegister(true);
-  instVec_.at(size_t(InstId::c_jalr)) .setBranchToRegister(true);
+  instVec_[size_t(InstId::jalr)]   .setBranchToRegister(true);
+  instVec_[size_t(InstId::c_jr)]   .setBranchToRegister(true);
+  instVec_[size_t(InstId::c_jalr)] .setBranchToRegister(true);
 
   // Mark other branch instructions.
-  instVec_.at(size_t(InstId::jal))    .setBranch(true);
-  instVec_.at(size_t(InstId::c_j))    .setBranch(true);
+  instVec_[size_t(InstId::jal)]    .setBranch(true);
+  instVec_[size_t(InstId::c_j)]    .setBranch(true);
 
   // Mark divide instructions.
-  instVec_.at(size_t(InstId::div))    .setIsDivide(true);
-  instVec_.at(size_t(InstId::divu))   .setIsDivide(true);
-  instVec_.at(size_t(InstId::rem))    .setIsDivide(true);
-  instVec_.at(size_t(InstId::remu))   .setIsDivide(true);
-  instVec_.at(size_t(InstId::divw))   .setIsDivide(true);
-  instVec_.at(size_t(InstId::divuw))  .setIsDivide(true);
-  instVec_.at(size_t(InstId::remw))   .setIsDivide(true);
-  instVec_.at(size_t(InstId::remuw))  .setIsDivide(true);
+  instVec_[size_t(InstId::div)]    .setIsDivide(true);
+  instVec_[size_t(InstId::divu)]   .setIsDivide(true);
+  instVec_[size_t(InstId::rem)]    .setIsDivide(true);
+  instVec_[size_t(InstId::remu)]   .setIsDivide(true);
+  instVec_[size_t(InstId::divw)]   .setIsDivide(true);
+  instVec_[size_t(InstId::divuw)]  .setIsDivide(true);
+  instVec_[size_t(InstId::remw)]   .setIsDivide(true);
+  instVec_[size_t(InstId::remuw)]  .setIsDivide(true);
 
   // Mark floating point instructions with rounding mode field.
-  instVec_.at(size_t(InstId::fmadd_s))   .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fmsub_s))   .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fnmsub_s))  .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fnmadd_s))  .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fadd_s))    .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fsub_s))    .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fmul_s))    .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fdiv_s))    .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fsqrt_s))   .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_w_s))  .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_wu_s)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_s_w))  .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_s_wu)) .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fmadd_s)]   .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fmsub_s)]   .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fnmsub_s)]  .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fnmadd_s)]  .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fadd_s)]    .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fsub_s)]    .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fmul_s)]    .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fdiv_s)]    .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fsqrt_s)]   .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_w_s)]  .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_wu_s)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_s_w)]  .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_s_wu)] .setHasRoundingMode(true);
 
-  instVec_.at(size_t(InstId::fcvt_l_s))  .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_lu_s)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_s_l))  .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_s_lu)) .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_l_s)]  .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_lu_s)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_s_l)]  .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_s_lu)] .setHasRoundingMode(true);
 
-  instVec_.at(size_t(InstId::fmadd_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fmsub_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fnmsub_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fnmadd_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fadd_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fsub_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fmul_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fdiv_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fsqrt_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_s_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_d_s)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_w_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_wu_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_d_w)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_d_wu)) .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fmadd_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fmsub_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fnmsub_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fnmadd_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fadd_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fsub_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fmul_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fdiv_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fsqrt_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_s_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_d_s)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_w_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_wu_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_d_w)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_d_wu)] .setHasRoundingMode(true);
 
-  instVec_.at(size_t(InstId::fcvt_l_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_lu_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_d_l)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_d_lu)) .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_l_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_lu_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_d_l)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_d_lu)] .setHasRoundingMode(true);
 
-  instVec_.at(size_t(InstId::fmadd_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fmsub_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fnmsub_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fnmadd_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fadd_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fsub_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fmul_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fdiv_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fsqrt_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_s_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_d_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_h_s)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_h_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_w_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_wu_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_h_w)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_h_wu)) .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fmadd_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fmsub_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fnmsub_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fnmadd_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fadd_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fsub_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fmul_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fdiv_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fsqrt_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_s_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_d_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_h_s)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_h_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_w_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_wu_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_h_w)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_h_wu)] .setHasRoundingMode(true);
 
   // rv64 + zfh
-  instVec_.at(size_t(InstId::fcvt_l_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_lu_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_h_l)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_h_lu)) .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_l_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_lu_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_h_l)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_h_lu)] .setHasRoundingMode(true);
 
   // rv64 + zfa
-  instVec_.at(size_t(InstId::fround_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fround_s)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fround_d)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::froundnx_h)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::froundnx_s)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::froundnx_d)) .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fround_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fround_s)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fround_d)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::froundnx_h)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::froundnx_s)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::froundnx_d)] .setHasRoundingMode(true);
 
   // rv64 + zfbfmin
-  instVec_.at(size_t(InstId::fcvt_bf16_s)) .setHasRoundingMode(true);
-  instVec_.at(size_t(InstId::fcvt_s_bf16)) .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_bf16_s)] .setHasRoundingMode(true);
+  instVec_[size_t(InstId::fcvt_s_bf16)] .setHasRoundingMode(true);
 
   // Mark compressed instructions which are rv32 variants
-  instVec_.at(size_t(InstId::c_flw)) .setCompressedRv32(true);
-  instVec_.at(size_t(InstId::c_fsw)) .setCompressedRv32(true);
-  instVec_.at(size_t(InstId::c_jal)) .setCompressedRv32(true);
-  instVec_.at(size_t(InstId::c_flwsp)) .setCompressedRv32(true);
-  instVec_.at(size_t(InstId::c_fswsp)) .setCompressedRv32(true);
+  instVec_[size_t(InstId::c_flw)] .setCompressedRv32(true);
+  instVec_[size_t(InstId::c_fsw)] .setCompressedRv32(true);
+  instVec_[size_t(InstId::c_jal)] .setCompressedRv32(true);
+  instVec_[size_t(InstId::c_flwsp)] .setCompressedRv32(true);
+  instVec_[size_t(InstId::c_fswsp)] .setCompressedRv32(true);
 
   // Mark compressed instructions which are rv64 variants
-  instVec_.at(size_t(InstId::c_ld)) .setCompressedRv64(true);
-  instVec_.at(size_t(InstId::c_sd)) .setCompressedRv64(true);
-  instVec_.at(size_t(InstId::c_addiw)) .setCompressedRv64(true);
-  instVec_.at(size_t(InstId::c_subw)) .setCompressedRv64(true);
-  instVec_.at(size_t(InstId::c_addw)) .setCompressedRv64(true);
-  instVec_.at(size_t(InstId::c_ldsp)) .setCompressedRv64(true);
-  instVec_.at(size_t(InstId::c_sdsp)) .setCompressedRv64(true);
+  instVec_[size_t(InstId::c_ld)] .setCompressedRv64(true);
+  instVec_[size_t(InstId::c_sd)] .setCompressedRv64(true);
+  instVec_[size_t(InstId::c_addiw)] .setCompressedRv64(true);
+  instVec_[size_t(InstId::c_subw)] .setCompressedRv64(true);
+  instVec_[size_t(InstId::c_addw)] .setCompressedRv64(true);
+  instVec_[size_t(InstId::c_ldsp)] .setCompressedRv64(true);
+  instVec_[size_t(InstId::c_sdsp)] .setCompressedRv64(true);
 
   // Mark instruction which have their immediate shifted by n bits
-  instVec_.at(size_t(InstId::lui))   .setImmedShiftSize(12);
-  instVec_.at(size_t(InstId::auipc)) .setImmedShiftSize(12);
-  instVec_.at(size_t(InstId::c_lui)) .setImmedShiftSize(12);
-  instVec_.at(size_t(InstId::c_addi16sp)) .setImmedShiftSize(4);
-  instVec_.at(size_t(InstId::c_addi4spn)) .setImmedShiftSize(2);
-  instVec_.at(size_t(InstId::c_beqz)) .setImmedShiftSize(1);
-  instVec_.at(size_t(InstId::c_bnez)) .setImmedShiftSize(1);
-  instVec_.at(size_t(InstId::beq)) .setImmedShiftSize(1);
-  instVec_.at(size_t(InstId::blt)) .setImmedShiftSize(1);
-  instVec_.at(size_t(InstId::bge)) .setImmedShiftSize(1);
-  instVec_.at(size_t(InstId::bgeu)).setImmedShiftSize(1);
-  instVec_.at(size_t(InstId::jal)) .setImmedShiftSize(1);
-  instVec_.at(size_t(InstId::c_j)) .setImmedShiftSize(1);
+  instVec_[size_t(InstId::lui)]   .setImmedShiftSize(12);
+  instVec_[size_t(InstId::auipc)] .setImmedShiftSize(12);
+  instVec_[size_t(InstId::c_lui)] .setImmedShiftSize(12);
+  instVec_[size_t(InstId::c_addi16sp)] .setImmedShiftSize(4);
+  instVec_[size_t(InstId::c_addi4spn)] .setImmedShiftSize(2);
+  instVec_[size_t(InstId::c_beqz)] .setImmedShiftSize(1);
+  instVec_[size_t(InstId::c_bnez)] .setImmedShiftSize(1);
+  instVec_[size_t(InstId::beq)] .setImmedShiftSize(1);
+  instVec_[size_t(InstId::blt)] .setImmedShiftSize(1);
+  instVec_[size_t(InstId::bge)] .setImmedShiftSize(1);
+  instVec_[size_t(InstId::bgeu)].setImmedShiftSize(1);
+  instVec_[size_t(InstId::jal)] .setImmedShiftSize(1);
+  instVec_[size_t(InstId::c_j)] .setImmedShiftSize(1);
 
 
 
   // Mark floating point instruction that modify FFLAGS.
   for (auto i = unsigned(InstId::flw); i <= unsigned(InstId::fcvt_h_lu); ++i)
-    instVec_.at(i).setModifiesFflags(true);
+    instVec_[i].setModifiesFflags(true);
 
   for (auto id : { InstId::flw, InstId::fsw, InstId::fsgnj_s, InstId::fsgnjn_s,
 		  InstId::fsgnjx_s, InstId::fmv_x_w, InstId::fclass_s,
 		  InstId::fmv_w_x, InstId::fcvt_l_s, InstId::fcvt_lu_s,
 		  InstId::fcvt_s_l, InstId::fcvt_s_lu } )
-    instVec_.at(unsigned(id)).setModifiesFflags(false);
+    instVec_[unsigned(id)].setModifiesFflags(false);
 
   for (auto id : { InstId::fld, InstId::fsd, InstId::fsgnj_d, InstId::fsgnjn_d,
 		  InstId::fsgnjx_d, InstId::fmv_x_d, InstId::fclass_d,
 		  InstId::fmv_d_x, InstId::fcvt_d_w, InstId::fcvt_d_wu,
 		  InstId::fcvt_l_d, InstId::fcvt_lu_d,
 		  InstId::fcvt_d_l, InstId::fcvt_d_lu } )
-    instVec_.at(unsigned(id)).setModifiesFflags(false);
+    instVec_[unsigned(id)].setModifiesFflags(false);
 
   for (auto id : { InstId::flh, InstId::fsh, InstId::fsgnj_h, InstId::fsgnjn_h,
 		  InstId::fsgnjx_h, InstId::fmv_x_h, InstId::fclass_h,
 		  InstId::fmv_h_x, InstId::fcvt_h_w, InstId::fcvt_d_wu,
 		  InstId::fcvt_l_h, InstId::fcvt_lu_h,
 		  InstId::fcvt_d_h } )
-    instVec_.at(unsigned(id)).setModifiesFflags(false);
+    instVec_[unsigned(id)].setModifiesFflags(false);
 
   // Mark Zfa instructions that modify FFLAGS
   for (auto i = unsigned(InstId::fcvtmod_w_d); i <= unsigned(InstId::froundnx_d); ++i)
-    instVec_.at(i).setModifiesFflags(true);
+    instVec_[i].setModifiesFflags(true);
 
   for (auto id : { InstId::fli_h, InstId::fli_s, InstId::fli_d, InstId::fleq_h, InstId::fleq_s,
 		   InstId::fleq_d, InstId::fltq_h, InstId::fltq_s, InstId::fltq_d,
 		   InstId::fmvh_x_d, InstId::fmvp_d_x } )
-    instVec_.at(unsigned(id)).setModifiesFflags(false);
+    instVec_[unsigned(id)].setModifiesFflags(false);
 
   // For backward compatibility, lr and sc are not counted as load/store
   // by the performance counters.
-  perfCountAtomicLoadStore(false);
+  perfCountAtomicLoadStore(instVec_,false);
 
   // For backward compatibility, floating point load store (flw/fsw,
   // fld/fsd ...)  instructions are not counted as load/store by the
   // performance counters.
-  perfCountFpLoadStore(false);
+  perfCountFpLoadStore(instVec_,false);
 }
 
 
 const InstEntry&
 InstTable::getEntry(InstId id) const
 {
-  if (size_t(id) >= instVec_.size())
-    return instVec_.front();
-  return instVec_.at(size_t(id));
+  //if (size_t(id) >= instVec_.size())
+  //  return instVec_.front();
+  return instArray_[size_t(id)];
 }
 
 
@@ -346,45 +348,44 @@ InstTable::getEntry(std::string_view name) const
 {
   const auto iter = instMap_.find(name);
   if (iter == instMap_.end())
-    return instVec_.front();
+    return instArray_.front(); // the illegal instr
   auto id = iter->second;
   return getEntry(id);
 }
 
 
-void
-InstTable::perfCountAtomicLoadStore(bool flag)
+constexpr void
+InstTable::perfCountAtomicLoadStore(std::vector<InstEntry> &instVec_, bool flag)
 {
-  instVec_.at(size_t(InstId::lr_w)).isPerfLoad_  = flag;
-  instVec_.at(size_t(InstId::lr_d)).isPerfLoad_  = flag;
-  instVec_.at(size_t(InstId::sc_w)).isPerfStore_ = flag;
-  instVec_.at(size_t(InstId::sc_d)).isPerfStore_ = flag;
+  instVec_[size_t(InstId::lr_w)].isPerfLoad_  = flag;
+  instVec_[size_t(InstId::lr_d)].isPerfLoad_  = flag;
+  instVec_[size_t(InstId::sc_w)].isPerfStore_ = flag;
+  instVec_[size_t(InstId::sc_d)].isPerfStore_ = flag;
 }
 
 
-void
-InstTable::perfCountFpLoadStore(bool flag)
+constexpr void
+InstTable::perfCountFpLoadStore(std::vector<InstEntry> &instVec_,bool flag)
 {
-  instVec_.at(size_t(InstId::flh))     .isPerfLoad_ = flag;
-  instVec_.at(size_t(InstId::flw))     .isPerfLoad_ = flag;
-  instVec_.at(size_t(InstId::fld))     .isPerfLoad_ = flag;
-  instVec_.at(size_t(InstId::c_fld))   .isPerfLoad_ = flag;
-  instVec_.at(size_t(InstId::c_flw))   .isPerfLoad_ = flag;
-  instVec_.at(size_t(InstId::c_fldsp)) .isPerfLoad_ = flag;
-  instVec_.at(size_t(InstId::c_flwsp)) .isPerfLoad_ = flag;
+  instVec_[size_t(InstId::flh)]     .isPerfLoad_ = flag;
+  instVec_[size_t(InstId::flw)]     .isPerfLoad_ = flag;
+  instVec_[size_t(InstId::fld)]     .isPerfLoad_ = flag;
+  instVec_[size_t(InstId::c_fld)]   .isPerfLoad_ = flag;
+  instVec_[size_t(InstId::c_flw)]   .isPerfLoad_ = flag;
+  instVec_[size_t(InstId::c_fldsp)] .isPerfLoad_ = flag;
+  instVec_[size_t(InstId::c_flwsp)] .isPerfLoad_ = flag;
 
-  instVec_.at(size_t(InstId::fsh))     .isPerfStore_ = flag;
-  instVec_.at(size_t(InstId::fsw))     .isPerfStore_ = flag;
-  instVec_.at(size_t(InstId::fsd))     .isPerfStore_ = flag;
-  instVec_.at(size_t(InstId::c_fsd))   .isPerfStore_ = flag;
-  instVec_.at(size_t(InstId::c_fsw))   .isPerfStore_ = flag;
-  instVec_.at(size_t(InstId::c_fsdsp)) .isPerfStore_ = flag;
-  instVec_.at(size_t(InstId::c_fswsp)) .isPerfStore_ = flag;
+  instVec_[size_t(InstId::fsh)]     .isPerfStore_ = flag;
+  instVec_[size_t(InstId::fsw)]     .isPerfStore_ = flag;
+  instVec_[size_t(InstId::fsd)]     .isPerfStore_ = flag;
+  instVec_[size_t(InstId::c_fsd)]   .isPerfStore_ = flag;
+  instVec_[size_t(InstId::c_fsw)]   .isPerfStore_ = flag;
+  instVec_[size_t(InstId::c_fsdsp)] .isPerfStore_ = flag;
+  instVec_[size_t(InstId::c_fswsp)] .isPerfStore_ = flag;
 }
 
 
-void
-InstTable::setupInstVec()
+constexpr void InstTable::setupInstVec(std::vector<InstEntry> &instVec_)
 {
   uint32_t rdMask = 0x1f << 7;
   uint32_t rs1Mask = 0x1f << 15;
@@ -7451,4 +7452,9 @@ InstTable::setupInstVec()
         OperandType::IntReg, OperandMode::Write, rdMask,
         OperandType::IntReg, OperandMode::Read, rs1Mask },
       };
+
+      // currently just duplicating the generated vectors from instVec into a std::array
+      // There is also a way to use a move iterator see: https://stackoverflow.com/questions/21276889/copy-stdvector-into-stdarray
+      // But for right now we just want the array, and will at some time want the constexpr entries
+      std::copy_n(instVec_.begin(), instVec_.size(), instArray_.begin());
 }
